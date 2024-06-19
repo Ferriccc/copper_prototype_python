@@ -46,10 +46,6 @@ def init():
             f,
             indent=4)
 
-    file_path = f"{PAST}routines.json"
-    with open(file_path, 'w') as f:
-        json.dump({'routines': ["FIRST_ENTRY_DO_NOT_TOUCH_THIS"]}, f, indent=4)
-
 
 class packages:
 
@@ -187,33 +183,6 @@ class symlinks:
             pass
 
 
-class routines:
-
-    def __init__(self):
-        pass
-
-    def handle_diff(self):
-        current = CURRENT + 'routines.json'
-        past = PAST + 'routines.json'
-
-        with open(current) as f:
-            current = json.load(f)
-        with open(past) as f:
-            past = json.load(f)
-
-        df = diff(past, current, syntax='explicit', marshal=True)
-        if df == None:
-            return
-
-        try:
-            inserted = df['$update']['routines']['$insert']  # type: ignore
-            if (inserted != None):
-                for ele in inserted:
-                    run(ele[1], False)
-        except:
-            pass
-
-
 def help():
     print("USAGE: setup.py [init / apply / dry]")
     sys.exit(1)
@@ -242,15 +211,12 @@ else:
 pack = packages()
 serv = systemd_services()
 sym = symlinks()
-rou = routines()
 
 pack.handle_diff()
 sym.handle_diff()
 serv.handle_diff()
-rou.handle_diff()
 
 if apply:
     run(f"cp {CURRENT}packages.json {PAST}packages.json")
     run(f"cp {CURRENT}services.json {PAST}services.json")
     run(f"cp {CURRENT}symlinks.json {PAST}symlinks.json")
-    run(f"cp {CURRENT}routines.json {PAST}routines.json")
