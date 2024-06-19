@@ -40,4 +40,5 @@ git clone https://github.com/yourusername/copper.git "$HOME/"
 ```bash
 copper.py init
 ```
-
+- Configure commands.json with respect to your linux distribution commands (see examples section for more details).
+- Now you can declare system configuration using the provided files in the copper directory itself.
