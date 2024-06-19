@@ -1,0 +1,9 @@
+{
+    "install": "yay -S --noconfirm #1",
+    "uninstall": "yay -R --noconfirm #1",
+    "clean": "su -c 'pacman -Qdtq | pacman -Rns -'",
+    "systemd_enable": "sudo systemctl enable --now #1",
+    "systemd_disable": "sudo systemctl disable --now #1",
+    "symlink_make": "sudo cp -asrf #1 #2",
+    "symlink_remove": "sudo rm $(find #1 -xtype -l)"
+}
