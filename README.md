@@ -34,7 +34,7 @@ git clone https://github.com/yourusername/copper.git "$HOME/"
 
 ## Usage
 - Options
-- - init 
+  - init 
   - dry (lists out all execution without actually executing it)
   - apply (actually apply the configuration) 
 - On the first run make sure to run with argument init:
