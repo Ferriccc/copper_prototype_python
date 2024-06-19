@@ -8,10 +8,8 @@
 - [Dependencies](#dependencies)
 - [Installation](#installation)
 - [Usage](#usage)
-- [Configuration File](#configuration-file)
 - [Examples](#examples)
-- [Contributing](#contributing)
-- [License](#license)
+- [Plans](#plans)
 
 ## Features
 
@@ -41,4 +39,15 @@ git clone https://github.com/yourusername/copper.git "$HOME/"
 copper.py init
 ```
 - Configure commands.json with respect to your linux distribution commands (see examples section for more details).
+- Configure packages.json with all the packages that you need to install.
 - Now you can declare system configuration using the provided files in the copper directory itself.
+
+## Examples
+- Take a look at my configuration at my [Linux-config](https://github.com/Ferriccc/Linux-configs) for example use.
+- Copper can be a used dotfile manager as it can manage symlinks to files in declarative way, you can move all the dotfiles in a specific directory which copper will symlink to their repective locations using symlinks.json, you can then go ahead and also track dotfiles using some tool like git.
+- Currently installed packages on your system can also be tracked with packages.json file.
+- Systemd services can be enabled / disabled by just adding / removing their names in services.json file.
+
+## Plans
+- I am planning to add support for rollbacks so that if something breaks you can rollback to previous state of the system using copper
+- Any suggestions / Feature requests are more than welcomed.
