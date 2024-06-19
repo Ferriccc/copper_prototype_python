@@ -49,7 +49,7 @@ copper.py init
 - commands.json expects each command to have placeholders in the form of #N where is N represents the position of argument, for example install command for debian based linux distribution will be "sudo apt install #1".
 - symlink command can be left unchanged but if you want to change, make sure it has 2 placeholders where 1st is for source file and 2nd is for destination of link.
 - clean command is basically a command to remove orphaned dependencies, look it up on internet for your linux distribution.
-- Take a look at my configuration at my [Linux-config](https://github.com/Ferriccc/Linux-configs) for example use.
+- Take a look at my configuration at my [Linux-config](https://github.com/Ferriccc/my-linux-config) for example use.
 - Copper can be a used dotfile manager as it can manage symlinks to files in declarative way, you can move all the dotfiles in a specific directory which copper will symlink to their repective locations using symlinks.json, you can then go ahead and also track dotfiles using some tool like git.
 - Currently installed packages on your system can also be tracked with packages.json file.
 - Systemd services can be enabled / disabled by just adding / removing their names in services.json file.
