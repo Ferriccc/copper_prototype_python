@@ -33,7 +33,10 @@ git clone https://github.com/yourusername/copper.git "$HOME/"
 - Add the copper directory to your path for easier access.
 
 ## Usage
-
+- Options
+- - init 
+  - dry (lists out all execution without actually executing it)
+  - apply (actually apply the configuration) 
 - On the first run make sure to run with argument init:
 ```bash
 copper.py init
