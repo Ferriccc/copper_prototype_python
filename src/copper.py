@@ -86,6 +86,22 @@ def init():
     ser.init()
     syml.init()
 
+    commentFilePath = f'{SOURCE_DIRECTORY}.comment.txt'
+    with open(commentFilePath, 'w') as f:
+        f.write('This file holds comments for all applied generations\n')
+
+
+def addComment(comment: str):
+    commentFilePath = f'{SOURCE_DIRECTORY}.comment.txt'
+    lastGen = getLastGeneration()
+    with open(commentFilePath, 'a') as f:
+        f.write(f"{lastGen}: {comment}\n")
+
+
+def showAllGens():
+    commentFilePath = f'{SOURCE_DIRECTORY}.comment.txt'
+    subprocess.run(f"cat {commentFilePath}", shell=True)
+
 
 if __name__ == "__main__":
     if len(sys.argv) != 3:
@@ -105,8 +121,12 @@ if __name__ == "__main__":
         revertOldGeneration(sys.argv[2])
 
     if sys.argv[1] == "apply":
+        comment = input(
+            "Enter some comment for this generation so that you can find when changing generation: "
+        )
         main(True)
         addNewGeneration()
+        addComment(comment)
     elif sys.argv[1] == "dry":
         main(False)
     else:
