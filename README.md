@@ -16,8 +16,9 @@
 - **Declarative Syntax**: Define your system configuration in a clear and concise way.
 - **Consistency**: Ensure consistent configuration across multiple systems.
 - **Ease of Use**: Simple commands to apply and manage configurations.
+- **Safe**: You can revert to previous configuration in case something breaks in current configuration
 
-## Features
+## Dependencies
 
 - [Python 3](https://www.python.org/)
 - [jsondiff](https://github.com/xlwings/jsondiff): A library to compute the difference between JSON objects.
