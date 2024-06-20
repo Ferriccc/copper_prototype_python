@@ -9,7 +9,7 @@
 - [Installation](#installation)
 - [Usage](#usage)
 - [Examples](#examples)
-- [Plans](#plans)
+- [Updates](#updates)
 
 ## Features
 
@@ -35,26 +35,34 @@ git clone https://github.com/yourusername/copper.git "$HOME/"
 
 ## Usage
 - Options
-  - init 
-  - dry (lists out all execution without actually executing it)
-  - apply (actually apply the configuration) 
-- On the first run make sure to run with argument init:
+  - init (makes required directories for functioning)
+  - dry {generation} (lists out all execution without actually executing it)
+  - apply {generation} (actually apply the configuration) 
+- On the first run make sure to run with argument init 0:
 ```bash
-copper.py init
+copper.py init 0
 ```
-- Configure commands.json with respect to your linux distribution commands (see examples section for more details).
-- Configure packages.json with all the packages that you need to install.
-- Now you can declare system configuration using the provided files in the copper directory itself.
-
-## Examples
+- For applying latest configuration (it follows the config in sourceDirectory *.json files):
+```bash
+copper.py apply latest
+```
+- For reverting to any previous configuration:
+```bash
+copper.py apply {generation number}
+```
+- All the generation are stored internally in provided sourceDirectory/.tmp/{generation}. Never touch this directory
+- Configure src/commands.json and src/variables with respect to your linux distribution commands.
 - commands.json expects each command to have placeholders in the form of #N where is N represents the position of argument, for example install command for debian based linux distribution will be "sudo apt install #1".
 - symlink command can be left unchanged but if you want to change, make sure it has 2 placeholders where 1st is for source file and 2nd is for destination of link.
 - clean command is basically a command to remove orphaned dependencies, look it up on internet for your linux distribution.
+- Now you can declare system configuration using the provided files in the copper directory itself.
+
+## Examples
 - Take a look at my configuration at my [Linux-config](https://github.com/Ferriccc/my-linux-config) for example use.
-- Copper can be a used dotfile manager as it can manage symlinks to files in declarative way, you can move all the dotfiles in a specific directory which copper will symlink to their repective locations using symlinks.json, you can then go ahead and also track dotfiles using some tool like git.
+- Copper can be used (but not limited as) a dotfile manager as it can manage symlinks to files in declarative way, you can move all the dotfiles in a specific directory which copper will symlink to their repective locations using symlinks.json, you can then go ahead and also track dotfiles using some tool like git.
 - Currently installed packages on your system can also be tracked with packages.json file.
 - Systemd services can be enabled / disabled by just adding / removing their names in services.json file.
 
-## Plans
-- I am planning to add support for rollbacks so that if something breaks you can rollback to previous state of the system using copper
+## Updates
+- ~I am planning to add support for rollbacks so that if something breaks you can rollback to previous state of the system using copper~ (UPD: added!)
 - Any suggestions / Feature requests are more than welcomed.
