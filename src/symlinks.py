@@ -57,8 +57,10 @@ class symlinks(generic):
             srcPath = file
             assert (srcPath.startswith(prefix))
             destPath = srcPath[len(prefix):]
+            cmd = f"mkdir -p \"$(dirname {destPath})\""
+            if not run(cmd, self.isApply):
+                return False
             cmd = SYM_MAKE.replace("#1", srcPath).replace("#2", destPath)
-
             if not run(cmd, self.isApply):
                 return False
 
