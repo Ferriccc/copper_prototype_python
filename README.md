@@ -31,9 +31,14 @@ To install Copper, follow these steps:
 # Clone the repository in your HOME directory
 git clone https://github.com/yourusername/copper.git "$HOME/"
 ```
-- Add the copper directory to your path for easier access.
+- Add the copper/src directory to your path for easier access.
 
 ## Usage
+- You need to make a source directory which then should be updated in variables.py file as variable source directory.
+- Copper will treat the files located in source directory as if they are under / in real filesystem
+- Source directory also holds your (packages / services).json files which you can edit to modify installed packages / enabled services.
+- For tracking any file it should be place inside the source directory in same structured path as it is under / (root) in real filesystem, after that copper takes care of linking and tracking it automatically.
+
 - Options
   - init (makes required directories for functioning)
   - dry {generation} (lists out all execution without actually executing it)
@@ -42,7 +47,7 @@ git clone https://github.com/yourusername/copper.git "$HOME/"
 ```bash
 copper.py init 0
 ```
-- For applying latest configuration (it follows the config in sourceDirectory *.json files):
+- For applying latest configuration:
 ```bash
 copper.py apply latest
 ```
@@ -51,15 +56,12 @@ copper.py apply latest
 copper.py apply {generation number}
 ```
 - All the generation are stored internally in provided sourceDirectory/.tmp/{generation}. Never touch this directory
-- Configure src/commands.json and src/variables with respect to your linux distribution commands.
-- commands.json expects each command to have placeholders in the form of #N where is N represents the position of argument, for example install command for debian based linux distribution will be "sudo apt install #1".
-- symlink command can be left unchanged but if you want to change, make sure it has 2 placeholders where 1st is for source file and 2nd is for destination of link.
-- clean command is basically a command to remove orphaned dependencies, look it up on internet for your linux distribution.
-- Now you can declare system configuration using the provided files in the copper directory itself.
+- Configure src/variables.py with respect to your linux distribution commands.
+- Now you are ready to declare your system configuration.
 
 ## Examples
 - Take a look at my configuration at my [Linux-config](https://github.com/Ferriccc/my-linux-config) for example use.
-- Copper can be used (but not limited as) a dotfile manager as it can manage symlinks to files in declarative way, you can move all the dotfiles in a specific directory which copper will symlink to their repective locations using symlinks.json, you can then go ahead and also track dotfiles using some tool like git.
+- Copper can be used (but not limited as) a dotfile manager as it can manage symlinks to files in declarative way.
 - Currently installed packages on your system can also be tracked with packages.json file.
 - Systemd services can be enabled / disabled by just adding / removing their names in services.json file.
 
