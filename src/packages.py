@@ -1,34 +1,31 @@
 import json
 from generic import generic
-from variables import SOURCE_DIRECTORY
+from variables import INSTALL, UNINSTALL
+from utils import run
 
-with open(f"{SOURCE_DIRECTORY}commands.json") as f:
-    cmds = json.load(f)
+defaultEntry = {'packages': ["FIRST_ENTRY_DO_NOT_TOUCH_THIS"]}
 
 
 class packages(generic):
 
-    def __init__(self, sourceDir: str, generation: str, isApply: bool) -> None:
-        super().__init__(sourceDir, generation, "packages", isApply)
+    def __init__(self, isApply: bool) -> None:
+        super().__init__("packages", isApply)
 
     def init(self) -> None:
         filePath = f"{self.pastDir}packages.json"
         with open(filePath, 'w') as f:
-            json.dump({'packages': ["FIRST_ENTRY_DO_NOT_TOUCH_THIS"]},
-                      f,
-                      indent=4)
+            json.dump(defaultEntry, f, indent=4)
+        filePath = f"{self.currentDir}packages.json"
+        with open(filePath, 'w') as f:
+            json.dump(defaultEntry, f, indent=4)
 
     def install(self, x: str) -> bool:
-        cmd = cmds["install"].replace("#1", x)
-        return self.run(cmd)
+        cmd = INSTALL.replace("#1", x)
+        return run(cmd, self.isApply)
 
     def uninstall(self, x: str) -> bool:
-        cmd = cmds["uninstall"].replace("#1", x)
-        return self.run(cmd)
-
-    def clean(self) -> bool:
-        cmd = cmds["clean"]
-        return self.run(cmd)
+        cmd = UNINSTALL.replace("#1", x)
+        return run(cmd, self.isApply)
 
     def handleDiff(self) -> bool:
         inserted = self.getInsertedList()

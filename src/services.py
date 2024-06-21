@@ -1,30 +1,31 @@
 import json
 from generic import generic
-from variables import SOURCE_DIRECTORY
+from variables import SER_ENABLE, SER_DISABLE
+from utils import run
 
-with open(f"{SOURCE_DIRECTORY}commands.json") as f:
-    cmds = json.load(f)
+defaultEntry = {'services': ["FIRST_ENTRY_DO_NOT_TOUCH_THIS"]}
 
 
 class services(generic):
 
-    def __init__(self, sourceDir: str, generation: str, isApply: bool) -> None:
-        super().__init__(sourceDir, generation, 'services', isApply)
+    def __init__(self, isApply: bool) -> None:
+        super().__init__('services', isApply)
 
     def init(self) -> None:
         filePath = f"{self.pastDir}services.json"
         with open(filePath, 'w') as f:
-            json.dump({'services': ["FIRST_ENTRY_DO_NOT_TOUCH_THIS"]},
-                      f,
-                      indent=4)
+            json.dump(defaultEntry, f, indent=4)
+        filePath = f"{self.currentDir}services.json"
+        with open(filePath, 'w') as f:
+            json.dump(defaultEntry, f, indent=4)
 
     def enable(self, x: str) -> bool:
-        cmd = cmds["systemd_enable"].replace("#1", x)
-        return self.run(cmd)
+        cmd = SER_ENABLE.replace("#1", x)
+        return run(cmd, self.isApply)
 
     def disable(self, x: str) -> bool:
-        cmd = cmds["systemd_disable"].replace("#1", x)
-        return self.run(cmd)
+        cmd = SER_DISABLE.replace("#1", x)
+        return run(cmd, self.isApply)
 
     def handleDiff(self) -> bool:
         inserted = self.getInsertedList()

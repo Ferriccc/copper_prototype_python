@@ -1,6 +1,7 @@
 import json
-import subprocess
 from jsondiff import diff
+from variables import SOURCE_DIRECTORY
+from utils import getLastGeneration, run
 
 
 class generic:
@@ -9,10 +10,9 @@ class generic:
     attribute: str
     isApply: bool
 
-    def __init__(self, sourceDir: str, generation: str, attribute: str,
-                 isApply: bool) -> None:
-        self.currentDir = f"{sourceDir}"
-        self.pastDir = f"{sourceDir}.tmp/{generation}/"
+    def __init__(self, attribute: str, isApply: bool) -> None:
+        self.currentDir = SOURCE_DIRECTORY
+        self.pastDir = f"{SOURCE_DIRECTORY}.tmp/{getLastGeneration()}/"
         self.attribute = attribute
         self.isApply = isApply
 
@@ -55,16 +55,10 @@ class generic:
         except:
             return None
 
-    def run(self, cmd: str) -> bool:
-        print(f"Executing: {cmd}")
-        if not self.isApply:
-            return True
-        res = subprocess.run(
-            cmd,
-            shell=True,
-            check=False,
-        )
-        return res.returncode == 0
+    def revert(self, gen: str) -> bool:
+        oldGenPath = f"{self.currentDir}.tmp/{gen}/"
+        cmd = f"cp {oldGenPath}{self.attribute}.json {self.currentDir}{self.attribute}.json"
+        return run(cmd, self.isApply)
 
     def handleDiff(self):
         raise NotImplementedError("Subclass must implement this method")
