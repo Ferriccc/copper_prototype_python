@@ -34,7 +34,7 @@ git clone https://github.com/yourusername/copper.git "$HOME/"
 - Add the copper/src directory to your path for easier access.
 
 ## Usage
-- You need to make a source directory which then should be updated in variables.py file as variable source directory.
+- You need to make all the changes source directory which is defined in variables.py.
 - Copper will treat the files located in source directory as if they are under / in real filesystem
 - Source directory also holds your (packages / services).json files which you can edit to modify installed packages / enabled services.
 - For tracking any file it should be place inside the source directory in same structured path as it is under / (root) in real filesystem, after that copper takes care of linking and tracking it automatically.
@@ -51,11 +51,11 @@ copper.py init 0
 ```bash
 copper.py apply latest
 ```
-- For reverting to any previous configuration:
+- For reverting to any previous configuration (NOTE: This will only revert the config to provided generation, to apply it actually, run copper.py apply latest after following command):
 ```bash
 copper.py apply {generation number}
 ```
-- All the generation are stored internally in provided sourceDirectory/.tmp/{generation}. Never touch this directory
+- All the generation are stored internally in provided your_home/.copperTmp/{generation}. Never touch this directory
 - Configure src/variables.py with respect to your linux distribution commands.
 - Now you are ready to declare your system configuration.
 
