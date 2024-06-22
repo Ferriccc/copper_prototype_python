@@ -55,10 +55,10 @@ class generic:
         except:
             return None
 
-    def revert(self, gen: str) -> bool:
+    def revert(self, gen: str):
         oldGenPath = f"{self.currentDir}.tmp/{gen}/"
         cmd = f"cp {oldGenPath}{self.attribute}.json {self.currentDir}{self.attribute}.json"
-        return run(cmd, self.isApply)
+        run(cmd, self.isApply)
 
     def handleDiff(self):
         raise NotImplementedError("Subclass must implement this method")

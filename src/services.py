@@ -19,25 +19,23 @@ class services(generic):
         with open(filePath, 'w') as f:
             json.dump(defaultEntry, f, indent=4)
 
-    def enable(self, x: str) -> bool:
+    def enable(self, x: str):
         cmd = SER_ENABLE.replace("#1", x)
-        return run(cmd, self.isApply)
+        run(cmd, self.isApply)
 
-    def disable(self, x: str) -> bool:
+    def disable(self, x: str):
         cmd = SER_DISABLE.replace("#1", x)
-        return run(cmd, self.isApply)
+        run(cmd, self.isApply)
 
-    def handleDiff(self) -> bool:
+    def handleDiff(self):
         inserted = self.getInsertedList()
         if (inserted != None):
             for ele in inserted:
-                if not self.enable(ele[1]):
-                    return False
+                self.enable(ele[1])
 
         deleted = self.getDeletedList()
         if (deleted != None):
             for ele in deleted:
-                if not self.disable(ele):
-                    return False
+                self.disable(ele)
 
         return True

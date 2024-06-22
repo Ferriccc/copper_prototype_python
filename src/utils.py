@@ -13,7 +13,7 @@ def getLastGeneration() -> str:
     return str(max(names))
 
 
-def run(cmd: str, isApply: bool) -> bool:
+def run(cmd: str, isApply: bool):
     print(f"Executing: {cmd}")
     if not isApply:
         return True
@@ -22,7 +22,8 @@ def run(cmd: str, isApply: bool) -> bool:
         shell=True,
         check=False,
     )
-    return res.returncode == 0
+    # if res.returncode != 0:
+    #     print(f"{cmd} failed ...")
 
 
 def makeSurePastExists(generation: str) -> bool:

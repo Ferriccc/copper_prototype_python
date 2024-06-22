@@ -9,27 +9,20 @@ from variables import SOURCE_DIRECTORY
 from utils import addNewGeneration, help, makeSurePastExists, addComment
 
 
-def main(isApply: bool) -> bool:
+def main(isApply: bool):
     pkg = packages(isApply)
     ser = services(isApply)
     syml = symlinks(isApply)
 
-    if not pkg.handleDiff():
-        return False
-    if not ser.handleDiff():
-        return False
+    pkg.handleDiff()
+    ser.handleDiff()
 
-    if not syml.unlink():
-        return False
+    syml.unlink()
 
     addNewGeneration(isApply)
-    if not syml.makeCopy():
-        return False
+    syml.makeCopy()
 
-    if not syml.link():
-        return False
-
-    return True
+    syml.link()
 
 
 def revertOldGeneration(isApply: bool, generation: str):

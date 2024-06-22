@@ -1,5 +1,5 @@
 # put the config directory here, make sure to have '/' at the end
-SOURCE_DIRECTORY = "/home/shrey/copperDir/"
+SOURCE_DIRECTORY = "/home/shrey/configs/"
 
 # append the names of files / directories that you want to be excluded in linking
 EXCLUDE = [

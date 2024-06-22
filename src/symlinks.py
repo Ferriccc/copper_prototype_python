@@ -35,12 +35,10 @@ class symlinks(generic):
                 continue
 
             srcPath = file
-            assert (srcPath.startswith(prefix))
             destPath = srcPath[len(prefix):]
             cmd = SYM_REMOVE.replace("#1", destPath)
 
-            if not run(cmd, self.isApply):
-                return False
+            run(cmd, self.isApply)
 
         return True
 
@@ -55,18 +53,17 @@ class symlinks(generic):
                 continue
 
             srcPath = file
-            assert (srcPath.startswith(prefix))
             destPath = srcPath[len(prefix):]
+
             cmd = f"mkdir -p \"$(dirname {destPath})\""
-            if not run(cmd, self.isApply):
-                return False
+            run(cmd, self.isApply)
+
             cmd = SYM_MAKE.replace("#1", srcPath).replace("#2", destPath)
-            if not run(cmd, self.isApply):
-                return False
+            run(cmd, self.isApply)
 
         return True
 
-    def makeCopy(self) -> bool:
+    def makeCopy(self):
         newGen = getLastGeneration()
         path = f"{self.currentDir}"
         newPrefix = f"{self.currentDir}.tmp/{newGen}/"
@@ -77,18 +74,15 @@ class symlinks(generic):
                 continue
 
             srcPath = file
-            assert (srcPath.startswith(path))
             destPath = newPrefix + srcPath[len(path):]
+
             cmd = f"mkdir -p \"$(dirname {destPath})\""
-            if not run(cmd, self.isApply):
-                return False
+            run(cmd, self.isApply)
+
             cmd = f"cp {srcPath} {destPath}"
-            if not run(cmd, self.isApply):
-                return False
+            run(cmd, self.isApply)
 
-        return True
-
-    def revert(self, gen: str) -> bool:
+    def revert(self, gen: str):
         path = f"{self.currentDir}.tmp/{gen}/"
         newPrefix = f"{self.currentDir}"
 
@@ -96,23 +90,20 @@ class symlinks(generic):
         for file in oldFiles:
             if self.isExculed(file) or ".tmp" in file:
                 continue
+
             cmd = SYM_REMOVE.replace("#1", file)
             run(cmd, self.isApply)
 
         allFiles = self.getAllFiles(path)
-
         for file in allFiles:
             if self.isExculed(file):
                 continue
 
             srcPath = file
-            assert (srcPath.startswith(path))
             destPath = newPrefix + srcPath[len(path):]
-            cmd = f"mkdir -p \"$(dirname {destPath})\""
-            if not run(cmd, self.isApply):
-                return False
-            cmd = f"cp {srcPath} {destPath}"
-            if not run(cmd, self.isApply):
-                return False
 
-        return True
+            cmd = f"mkdir -p \"$(dirname {destPath})\""
+            run(cmd, self.isApply)
+
+            cmd = f"cp {srcPath} {destPath}"
+            run(cmd, self.isApply)

@@ -19,25 +19,21 @@ class packages(generic):
         with open(filePath, 'w') as f:
             json.dump(defaultEntry, f, indent=4)
 
-    def install(self, x: str) -> bool:
+    def install(self, x: str):
         cmd = INSTALL.replace("#1", x)
-        return run(cmd, self.isApply)
+        run(cmd, self.isApply)
 
-    def uninstall(self, x: str) -> bool:
+    def uninstall(self, x: str):
         cmd = UNINSTALL.replace("#1", x)
-        return run(cmd, self.isApply)
+        run(cmd, self.isApply)
 
-    def handleDiff(self) -> bool:
+    def handleDiff(self):
         inserted = self.getInsertedList()
         if (inserted != None):
             for ele in inserted:
-                if not self.install(ele[1]):
-                    return False
+                self.install(ele[1])
 
         deleted = self.getDeletedList()
         if (deleted != None):
             for ele in deleted:
-                if not self.uninstall(ele):
-                    return False
-
-        return True
+                self.uninstall(ele)
