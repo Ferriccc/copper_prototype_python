@@ -12,7 +12,7 @@ class services(generic):
         super().__init__('services', isApply)
 
     def init(self) -> None:
-        filePath = f"{self.pastDir}services.json"
+        filePath = f"{self.mainDir}services.json"
         with open(filePath, 'w') as f:
             json.dump(defaultEntry, f, indent=4)
         filePath = f"{self.currentDir}services.json"

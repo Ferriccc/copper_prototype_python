@@ -5,8 +5,8 @@ import sys
 from packages import packages
 from services import services
 from symlinks import symlinks
-from variables import SOURCE_DIRECTORY
-from utils import addNewGeneration, help, makeSurePastExists, addComment
+from variables import MAIN_DIRECTORY, SOURCE_DIRECTORY, TMP_DIRECTORY
+from utils import addNewGeneration, help, makeSurePastExists, revert
 
 
 def main(isApply: bool):
@@ -18,38 +18,20 @@ def main(isApply: bool):
     ser.handleDiff()
 
     syml.unlink()
-
     addNewGeneration(isApply)
-    syml.makeCopy()
-
     syml.link()
 
 
-def revertOldGeneration(isApply: bool, generation: str):
-    pkg = packages(isApply)
-    ser = services(isApply)
-    syml = symlinks(isApply)
-
-    pkg.revert(generation)
-    ser.revert(generation)
-    syml.revert(generation)
-
-    main(isApply)
-
-
 def init():
-    pastDir = f'{SOURCE_DIRECTORY}.tmp/0/'
-    os.makedirs(pastDir, exist_ok=True)
+    os.makedirs(SOURCE_DIRECTORY, exist_ok=True)
+    os.makedirs(MAIN_DIRECTORY, exist_ok=True)
+    os.makedirs(TMP_DIRECTORY, exist_ok=True)
 
     pkg = packages(True)
     ser = services(True)
 
     pkg.init()
     ser.init()
-
-    commentFilePath = f'{SOURCE_DIRECTORY}.comment.txt'
-    with open(commentFilePath, 'w') as f:
-        f.write('This file holds comments for all applied generations\n')
 
 
 if __name__ == "__main__":
@@ -67,16 +49,12 @@ if __name__ == "__main__":
     if sys.argv[2] != "latest":
         if not makeSurePastExists(sys.argv[2]):
             sys.exit(1)
-        revertOldGeneration(sys.argv[1] == "apply", sys.argv[2])
-    elif not makeSurePastExists("0"):
+        revert(sys.argv[2], sys.argv[1] == "apply")
+    elif not makeSurePastExists("-1"):
         sys.exit(1)
 
     if sys.argv[1] == "apply":
-        comment = input(
-            "Enter some comment for this generation so that you can find when changing generation: "
-        )
         main(True)
-        addComment(comment)
     elif sys.argv[1] == "dry":
         main(False)
     else:

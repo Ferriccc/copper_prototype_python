@@ -1,5 +1,9 @@
-# put the config directory here, make sure to have '/' at the end
+# warn: never change anything is MAIN_DIRECTORY or TMP_DIRECTORY
+# all your changes should be in SOURCE_DIRECTORY
+# SOURCE_DIRECTORY should be a direct sub directory of some path, which already exists in your system
 SOURCE_DIRECTORY = "/home/shrey/configs/"
+MAIN_DIRECTORY = "/home/shrey/.copper/"
+TMP_DIRECTORY = "/home/shrey/.copperTmp/"
 
 # append the names of files / directories that you want to be excluded in linking
 EXCLUDE = [

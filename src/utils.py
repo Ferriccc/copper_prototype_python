@@ -1,6 +1,6 @@
 import subprocess
 import os
-from variables import SOURCE_DIRECTORY
+from variables import SOURCE_DIRECTORY, TMP_DIRECTORY, MAIN_DIRECTORY
 
 
 def help():
@@ -8,9 +8,9 @@ def help():
 
 
 def getLastGeneration() -> str:
-    pastDir = f"{SOURCE_DIRECTORY}.tmp/"
+    pastDir = TMP_DIRECTORY
     names = [int(name) for name in os.listdir(pastDir)]
-    return str(max(names))
+    return str(max(names)) if len(names) > 0 else "0"
 
 
 def run(cmd: str, isApply: bool):
@@ -22,18 +22,18 @@ def run(cmd: str, isApply: bool):
         shell=True,
         check=False,
     )
-    # if res.returncode != 0:
-    #     print(f"{cmd} failed ...")
 
 
 def makeSurePastExists(generation: str) -> bool:
-    pastDir = f'{SOURCE_DIRECTORY}.tmp/'
+    pastDir = MAIN_DIRECTORY
     if not os.path.exists(pastDir):
         print(
             "You forgot to run init command first time, run copper.py init to get started"
         )
         return False
-    pastDir = f"{pastDir}{generation}/"
+    if (generation == "-1"):
+        return True
+    pastDir = f"{TMP_DIRECTORY}{generation}/"
     if not os.path.exists(pastDir):
         print(
             "Provided generation does not exists, make sure to provide valid generation"
@@ -43,27 +43,25 @@ def makeSurePastExists(generation: str) -> bool:
 
 
 def addNewGeneration(isApply: bool):
-    lastGen = getLastGeneration()
-    newGen = str(int(lastGen) + 1)
-    newGenPath = f"{SOURCE_DIRECTORY}.tmp/{newGen}/"
+    run(f"rm -rf {MAIN_DIRECTORY}", isApply)
 
-    if isApply:
-        os.makedirs(newGenPath, exist_ok=True)
-    else:
-        print(f"Executing inbuilt funtion to make dir {newGenPath}")
-
-    for attribute in ['packages', 'services']:
-        cmd = f"cp {SOURCE_DIRECTORY}{attribute}.json {newGenPath}{attribute}.json"
-        run(cmd, isApply)
+    gen = str(int(getLastGeneration()) + 1)
+    run(f"cp -r {SOURCE_DIRECTORY} {TMP_DIRECTORY}{gen}/", isApply)
+    run(f"cp -r {SOURCE_DIRECTORY} {MAIN_DIRECTORY}", isApply)
 
 
-def showAllGens():
-    commentFilePath = f'{SOURCE_DIRECTORY}.comment.txt'
-    run(f"cat {commentFilePath}", True)
+def revert(gen: str, isApply: bool):
+    assert (makeSurePastExists(gen))
+    run(f"rm -rf {SOURCE_DIRECTORY}", isApply)
+    run(f"cp -r {TMP_DIRECTORY}{gen}/ {SOURCE_DIRECTORY}", isApply)
 
 
-def addComment(comment: str):
-    commentFilePath = f'{SOURCE_DIRECTORY}.comment.txt'
-    lastGen = getLastGeneration()
-    with open(commentFilePath, 'a') as f:
-        f.write(f"{lastGen}: {comment}\n")
+# def showAllGens():
+#     commentFilePath = f'{SOURCE_DIRECTORY}.comment.txt'
+#     run(f"cat {commentFilePath}", True)
+
+# def addComment(comment: str):
+#     commentFilePath = f'{SOURCE_DIRECTORY}.comment.txt'
+#     lastGen = getLastGeneration()
+#     with open(commentFilePath, 'a') as f:
+#         f.write(f"{lastGen}: {comment}\n")

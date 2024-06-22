@@ -1,24 +1,25 @@
 import json
 from jsondiff import diff
-from variables import SOURCE_DIRECTORY
+from variables import MAIN_DIRECTORY, SOURCE_DIRECTORY, TMP_DIRECTORY
 from utils import getLastGeneration, run
 
 
 class generic:
     currentDir: str
-    pastDir: str
+    mainDir: str
     attribute: str
     isApply: bool
 
     def __init__(self, attribute: str, isApply: bool) -> None:
         self.currentDir = SOURCE_DIRECTORY
-        self.pastDir = f"{SOURCE_DIRECTORY}.tmp/{getLastGeneration()}/"
+        self.mainDir = MAIN_DIRECTORY
+        self.tmpDir = TMP_DIRECTORY
         self.attribute = attribute
         self.isApply = isApply
 
     def getDiffs(self):
         current = self.currentDir + self.attribute + ".json"
-        past = self.pastDir + self.attribute + ".json"
+        past = self.mainDir + self.attribute + ".json"
         with open(current) as f:
             current = json.load(f)
         with open(past) as f:
@@ -54,11 +55,6 @@ class generic:
             return deleted
         except:
             return None
-
-    def revert(self, gen: str):
-        oldGenPath = f"{self.currentDir}.tmp/{gen}/"
-        cmd = f"cp {oldGenPath}{self.attribute}.json {self.currentDir}{self.attribute}.json"
-        run(cmd, self.isApply)
 
     def handleDiff(self):
         raise NotImplementedError("Subclass must implement this method")

@@ -1,7 +1,7 @@
 import subprocess
 from generic import generic
 from variables import EXCLUDE, SYM_MAKE, SYM_REMOVE
-from utils import getLastGeneration, run
+from utils import run
 
 
 class symlinks(generic):
@@ -25,17 +25,14 @@ class symlinks(generic):
         return False
 
     def unlink(self) -> bool:
-        lastGen = getLastGeneration()
-        path = f"{self.currentDir}.tmp/{lastGen}/"
-        prefix = f"{self.currentDir}.tmp/{lastGen}"
+        path = self.mainDir
         allFiles = self.getAllFiles(path)
 
         for file in allFiles:
             if self.isExculed(file):
                 continue
 
-            srcPath = file
-            destPath = srcPath[len(prefix):]
+            destPath = f"/{file[len(path):]}"
             cmd = SYM_REMOVE.replace("#1", destPath)
 
             run(cmd, self.isApply)
@@ -43,9 +40,7 @@ class symlinks(generic):
         return True
 
     def link(self) -> bool:
-        lastGen = getLastGeneration()
-        path = f"{self.currentDir}.tmp/{lastGen}/"
-        prefix = f"{self.currentDir}.tmp/{lastGen}"
+        path = self.mainDir
         allFiles = self.getAllFiles(path)
 
         for file in allFiles:
@@ -53,7 +48,7 @@ class symlinks(generic):
                 continue
 
             srcPath = file
-            destPath = srcPath[len(prefix):]
+            destPath = f"/{file[len(path):]}"
 
             cmd = f"mkdir -p \"$(dirname {destPath})\""
             run(cmd, self.isApply)
@@ -62,48 +57,3 @@ class symlinks(generic):
             run(cmd, self.isApply)
 
         return True
-
-    def makeCopy(self):
-        newGen = getLastGeneration()
-        path = f"{self.currentDir}"
-        newPrefix = f"{self.currentDir}.tmp/{newGen}/"
-        allFiles = self.getAllFiles(path)
-
-        for file in allFiles:
-            if self.isExculed(file) or ".tmp" in file:
-                continue
-
-            srcPath = file
-            destPath = newPrefix + srcPath[len(path):]
-
-            cmd = f"mkdir -p \"$(dirname {destPath})\""
-            run(cmd, self.isApply)
-
-            cmd = f"cp {srcPath} {destPath}"
-            run(cmd, self.isApply)
-
-    def revert(self, gen: str):
-        path = f"{self.currentDir}.tmp/{gen}/"
-        newPrefix = f"{self.currentDir}"
-
-        oldFiles = self.getAllFiles(newPrefix)
-        for file in oldFiles:
-            if self.isExculed(file) or ".tmp" in file:
-                continue
-
-            cmd = SYM_REMOVE.replace("#1", file)
-            run(cmd, self.isApply)
-
-        allFiles = self.getAllFiles(path)
-        for file in allFiles:
-            if self.isExculed(file):
-                continue
-
-            srcPath = file
-            destPath = newPrefix + srcPath[len(path):]
-
-            cmd = f"mkdir -p \"$(dirname {destPath})\""
-            run(cmd, self.isApply)
-
-            cmd = f"cp {srcPath} {destPath}"
-            run(cmd, self.isApply)
