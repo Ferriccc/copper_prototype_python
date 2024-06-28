@@ -29,6 +29,10 @@ class generic:
         ]
 
     def getInsertedList(self):
+        current = self.currentDir + self.attribute + ".json"
+        with open(current) as f:
+            current = json.load(f)
+        return list(current[self.attribute])
         df = self.getDiffs()[0]
         if df == None:
             return None

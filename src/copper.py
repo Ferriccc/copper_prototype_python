@@ -15,11 +15,12 @@ def main(isApply: bool):
     syml = symlinks(isApply)
 
     pkg.handleDiff()
+    ser.handleDiff()
 
     syml.unlink()
     addNewGeneration(isApply)
     syml.link()
-    
+
     ser.handleDiff()
 
 
