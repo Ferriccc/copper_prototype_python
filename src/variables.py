@@ -1,13 +1,16 @@
-# warn: never change anything is MAIN_DIRECTORY or TMP_DIRECTORY
-# all your changes should be in SOURCE_DIRECTORY
+# warn: only change the home directory path
+# all your config changes should be in SOURCE_DIRECTORY
 # SOURCE_DIRECTORY should be a direct sub directory of some path, which already exists in your system
+# below are some recommended paths
 SOURCE_DIRECTORY = "/home/shrey/configs/"
 MAIN_DIRECTORY = "/home/shrey/.copper/"
+INTERMEDIATE_DIRECTORY = "/home/shrey/.copperInter/"
 TMP_DIRECTORY = "/home/shrey/.copperTmp/"
 
-# append the names of files / directories that you want to be excluded in linking
+# append the names of files / directories that you want to be excluded in linking to real filesystem
 EXCLUDE = [
-    'packages.json', 'services.json', 'README.md', '.git', '.comment.txt'
+    'packages.json', 'services.json', 'README.md', '.git', '.comment.txt',
+    'denv'
 ]
 
 # install & uninstall commands for your package manager #N will act as a placeholder

@@ -34,7 +34,6 @@ class symlinks(generic):
 
             destPath = f"/{file[len(path):]}"
             cmd = SYM_REMOVE.replace("#1", destPath)
-
             run(cmd, self.isApply)
 
         return True

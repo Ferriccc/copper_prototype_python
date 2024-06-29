@@ -14,14 +14,11 @@ def main(isApply: bool):
     ser = services(isApply)
     syml = symlinks(isApply)
 
-    pkg.handleDiff()
-    ser.handleDiff()
-
     syml.unlink()
     addNewGeneration(isApply)
-    syml.link()
-
+    pkg.handleDiff()
     ser.handleDiff()
+    syml.link()
 
 
 def init():

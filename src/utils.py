@@ -1,6 +1,6 @@
 import subprocess
 import os
-from variables import SOURCE_DIRECTORY, TMP_DIRECTORY, MAIN_DIRECTORY
+from variables import SOURCE_DIRECTORY, TMP_DIRECTORY, MAIN_DIRECTORY, INTERMEDIATE_DIRECTORY
 
 
 def help():
@@ -43,8 +43,8 @@ def makeSurePastExists(generation: str) -> bool:
 
 
 def addNewGeneration(isApply: bool):
-    run(f"rm -rf {MAIN_DIRECTORY}", isApply)
-
+    run(f"rm -rf {INTERMEDIATE_DIRECTORY}", isApply)
+    run(f"mv {MAIN_DIRECTORY} {INTERMEDIATE_DIRECTORY}", isApply)
     gen = str(int(getLastGeneration()) + 1)
     run(f"cp -r {SOURCE_DIRECTORY} {TMP_DIRECTORY}{gen}/", isApply)
     run(f"cp -r {SOURCE_DIRECTORY} {MAIN_DIRECTORY}", isApply)

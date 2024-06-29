@@ -29,10 +29,9 @@ class packages(generic):
 
     def handleDiff(self):
         inserted = self.getInsertedList()
-        if inserted != None:
+        if (inserted != None):
             for ele in inserted:
-                if ele != "FIRST_ENTRY_DO_NOT_TOUCH_THIS":
-                    self.install(ele)
+                self.install(ele[1])
 
         deleted = self.getDeletedList()
         if (deleted != None):

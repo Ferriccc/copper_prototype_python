@@ -29,10 +29,9 @@ class services(generic):
 
     def handleDiff(self):
         inserted = self.getInsertedList()
-        if inserted != None:
+        if (inserted != None):
             for ele in inserted:
-                if ele != "FIRST_ENTRY_DO_NOT_TOUCH_THIS":
-                    self.enable(ele)
+                self.enable(ele[1])
 
         deleted = self.getDeletedList()
         if (deleted != None):
