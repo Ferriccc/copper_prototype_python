@@ -1,6 +1,6 @@
 import subprocess
 from generic import generic
-from variables import EXCLUDE, SYM_MAKE, SYM_REMOVE
+from variables import DIR_MAKE, EXCLUDE, SYM_MAKE, SYM_REMOVE
 from utils import run
 
 
@@ -49,7 +49,7 @@ class symlinks(generic):
             srcPath = file
             destPath = f"/{file[len(path):]}"
 
-            cmd = f"mkdir -p \"$(dirname {destPath})\""
+            cmd = DIR_MAKE.replace("#1", f"$(dirname {destPath})")
             run(cmd, self.isApply)
 
             cmd = SYM_MAKE.replace("#1", srcPath).replace("#2", destPath)

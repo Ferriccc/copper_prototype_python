@@ -25,3 +25,6 @@ SER_DISABLE = "sudo systemctl disable --now #1"
 # commands to make / remove symlinks (mostly you don't need to change this)
 SYM_MAKE = "sudo cp -asrf #1 #2"
 SYM_REMOVE = "sudo rm -rf #1"
+
+# command to make a directory (-p flag automatically makes any parent directory as well)
+DIR_MAKE = "sudo mkdir -p #1"
