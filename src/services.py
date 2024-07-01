@@ -15,9 +15,6 @@ class services(generic):
         filePath = f"{self.mainDir}services.json"
         with open(filePath, 'w') as f:
             json.dump(defaultEntry, f, indent=4)
-        filePath = f"{self.currentDir}services.json"
-        with open(filePath, 'w') as f:
-            json.dump(defaultEntry, f, indent=4)
 
     def enable(self, x: str):
         cmd = SER_ENABLE.replace("#1", x)

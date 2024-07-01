@@ -15,9 +15,6 @@ class packages(generic):
         filePath = f"{self.mainDir}packages.json"
         with open(filePath, 'w') as f:
             json.dump(defaultEntry, f, indent=4)
-        filePath = f"{self.currentDir}packages.json"
-        with open(filePath, 'w') as f:
-            json.dump(defaultEntry, f, indent=4)
 
     def install(self, x: str):
         cmd = INSTALL.replace("#1", x)

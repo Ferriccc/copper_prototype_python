@@ -28,3 +28,4 @@ SYM_REMOVE = "sudo rm -rf #1"
 
 # command to make a directory (-p flag automatically makes any parent directory as well)
 DIR_MAKE = "sudo mkdir -p #1"
+CHOWN_CMD = "sudo chown $(whoami) -R #1"
