@@ -15,7 +15,9 @@ def main(isApply: bool):
     syml = symlinks(isApply)
 
     syml.unlink()
+
     addNewGeneration(isApply)
+
     pkg.handleDiff()
     ser.handleDiff()
     syml.link()

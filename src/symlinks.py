@@ -1,6 +1,6 @@
 import subprocess
 from generic import generic
-from variables import CHOWN_CMD, DIR_MAKE, EXCLUDE, SYM_MAKE, SYM_REMOVE
+from variables import DIR_MAKE, EXCLUDE, SYM_MAKE, SYM_REMOVE, CHOWN_CMD
 from utils import run
 
 
@@ -51,6 +51,7 @@ class symlinks(generic):
 
             cmd = DIR_MAKE.replace("#1", f"$(dirname {destPath})")
             run(cmd, self.isApply)
+
             cmd = CHOWN_CMD.replace("#1", f"$(dirname {destPath})")
             run(cmd, self.isApply)
 
